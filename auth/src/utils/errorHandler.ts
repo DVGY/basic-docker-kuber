@@ -5,4 +5,12 @@ export const errorHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {};
+) => {
+  // todo handle all error seperately
+  console.log("Recieved err");
+  console.log(err);
+  res.status(200).json({
+    status: "Error",
+    message: err.message,
+  });
+};

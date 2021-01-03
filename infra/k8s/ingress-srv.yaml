@@ -21,3 +21,11 @@ spec:
             backend:
               serviceName: auth-srv
               servicePort: 3000
+          - path: /api/users/signin
+            backend:
+              serviceName: auth-srv
+              servicePort: 3000
+          - path: /api/users/signout
+            backend:
+              serviceName: auth-srv
+              servicePort: 3000

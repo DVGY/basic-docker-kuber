@@ -1,14 +1,8 @@
-import express, { Request, Response } from "express";
-import User from "../model/userModel";
-import { IUser } from "../model/userModel";
+import express, { NextFunction, Request, Response } from "express";
+import { signup } from "../controller/authController";
 
 const router = express.Router();
 
-router.post("/api/users/signup", async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  const userdoc = await User.create({ email, password });
-  console.log(userdoc);
-  res.send("Inised signup");
-});
+router.post("/api/users/signup", signup);
 
 export default router;
