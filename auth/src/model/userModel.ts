@@ -47,7 +47,6 @@ userSchema.pre<IUser>("save", async function (next) {
   // This is a document middleware this points to user document
 
   if (!this.isModified("password")) return next();
-  console.log("Exec this");
   this.password = await bcrypt.hash(this.password, 12);
 
   next();

@@ -11,15 +11,19 @@ export const signup = async (
   try {
     const { email, password } = req.body;
     // 1. Create a User
-    const userdoc = await User.create({ email, password });
+    const user = await User.create({ email, password });
 
     // 2. Create JWT Token
     //    Do I need to set expires in ?
 
-    const token = jwt.sign({ id: userdoc._id }, process.env.JWT_SECRET_KEY!);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY!);
 
     // 3. Set token in cookie
-    res.cookie("jwt", token, { httpOnly: true, secure: true });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: true,
+      signed: true,
+    });
 
     // 4. Send Response
 
@@ -27,7 +31,7 @@ export const signup = async (
       status: "success",
       token,
       data: {
-        userdoc,
+        user,
       },
     });
   } catch (err) {
@@ -41,7 +45,6 @@ export const signin = async (
   next: NextFunction
 ) => {
   try {
-    console.log("Hhh");
     const { email, password } = req.body;
     // 1. Check if email or password exist
     if (!email || !password) {
@@ -62,7 +65,12 @@ export const signin = async (
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY!);
 
     // 3. Set token in cookie
-    res.cookie("jwt", token, { httpOnly: true });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      // secure: process.env.NODE_ENV !== "test",
+      secure: true,
+      signed: true,
+    });
 
     // 4. Send Response
 
@@ -96,26 +104,31 @@ export const currentUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  // 1. Check if the the jwt token exist in cookie
-  const token = req.cookies.jwt;
+  try {
+    // 1. Check if the the jwt token exist in cookie
+    // const token = req.cookies.jwt;
+    const token = req.signedCookies.jwt;
+    if (!token) {
+      next(new AppError("You are not authorised", 401));
+    }
 
-  if (!token) {
-    next(new AppError("You are not authorised", 401));
+    // 2. Verify if the token is correct
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY!);
+
+    // 3. Send token
+    // req.user =
+    // res.locals.user =
+    res.status(200).json({
+      status: "success",
+      data: {
+        currentUser: decoded,
+      },
+    });
+  } catch (err) {
+    next(err);
   }
-
-  // 2. Verify if the token is correct
-  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY!);
-
-  // 3. Send token
-  // req.user =
-  // res.locals.user =
-  res.status(200).json({
-    status: "success",
-    data: {
-      currentUser: decoded,
-    },
-  });
 };
+
 //--------------------------------------//
 //              UTILITY                 //
 //--------------------------------------//

@@ -8,8 +8,8 @@ export const errorHandler = (
 ) => {
   // todo handle all error seperately
   console.log("Recieved err");
-  console.log(err);
-  res.status(200).json({
+  // console.log(err);
+  res.status(400).json({
     status: "Error",
     message: err.message,
   });
