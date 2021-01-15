@@ -11,7 +11,7 @@ export const signup = async (
   try {
     const { email, password } = req.body;
     // 1. Create a User
-    const user = await User.create({ email, password });
+    const user: IUser = await User.create({ email, password });
 
     // 2. Create JWT Token
     //    Do I need to set expires in ?
@@ -109,7 +109,9 @@ export const currentUser = async (
     // const token = req.cookies.jwt;
     const token = req.signedCookies.jwt;
     if (!token) {
-      next(new AppError("You are not authorised", 401));
+      return next(new AppError("You are not authorised", 401));
+     
+      
     }
 
     // 2. Verify if the token is correct

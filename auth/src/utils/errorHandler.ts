@@ -1,16 +1,23 @@
-import { Response, Request, NextFunction } from "express";
+import { Response, Request, NextFunction, ErrorRequestHandler } from "express";
 
 export const errorHandler = (
-  err: Error,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  // todo handle all error seperately
-  console.log("Recieved err");
-  // console.log(err);
-  res.status(400).json({
+  const statusCode = err.statusCode || 400;
+  const message = err.message;
+
+  // console.log({ err });
+  res.status(statusCode).json({
     status: "Error",
-    message: err.message,
+    message,
+    // stack: err.stack,
   });
+  // next();
 };
+
+// 1. We want to provide custom message to user's so that client can read from.
+// 2. We don't want to leak the stack trace details when in production, use console.error(), so we will not send stack detail if it is operational error.
+// 3.
