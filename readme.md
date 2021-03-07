@@ -119,3 +119,5 @@
 :rocket: Add tailwind css and add signup and signin page
 
 :rocket: Add current user and signout login page in NextJS
+
+:rocket: Move Error handling logic to npm library (not doing right now)
