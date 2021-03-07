@@ -47,10 +47,13 @@
 1. Docker container wrap up the npm and node dependencies in isolated env. We can then run this container and our code inside this container run using dockerfile config
 2. Image of Docker Container
 
+![Docker Container](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Docker.png)
+
 #### Kubernetes
 
 1. If we have multiple docker container, kubernetes can be used to manage containers
 2. Image of Kubernetes Cluster
+![Kubernetes Cluster](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Kubernetes%20Cluster.png)
 3. Kubernetes Cluster - A collection of node (VM) + a master to manage them
 4. Node - A VM that will run our container
 5. Pod - A pod container single or multiple containers (kind:pod)
@@ -59,9 +62,12 @@
 
    7.1 Cluster IP - Can be used to communicate btw different pods withing kubernetes cluster, it exposes a port and IP (backend)
 
+   ![ Cluster IP](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Cluster%20IP.png)
+
    7.2 Node Port - Mostly used in development purpose, to access pod from outside kubernetes cluster (access via user's browser)
 
    Node Port Image
+   ![Node Port](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Node%20Port.png)
 
    Node Port service exposes the port as `portnumber/TCP` `3042/TCP`, we then make a request like `localhost:portnumber/resource` to access the post resource
    port: 4000 - node port service own port expose it to the browser
@@ -73,6 +79,8 @@
 
 8. Ingress - A pod with a set of routing rules to distribute traffic to other services
    Image
+   
+   ![Load balancer](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Load%20Balancer.png)
 
 # Kubernetes Command
 
