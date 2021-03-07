@@ -53,7 +53,9 @@
 
 1. If we have multiple docker container, kubernetes can be used to manage containers
 2. Image of Kubernetes Cluster
+
 ![Kubernetes Cluster](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Kubernetes%20Cluster.png)
+
 3. Kubernetes Cluster - A collection of node (VM) + a master to manage them
 4. Node - A VM that will run our container
 5. Pod - A pod container single or multiple containers (kind:pod)
@@ -67,6 +69,7 @@
    7.2 Node Port - Mostly used in development purpose, to access pod from outside kubernetes cluster (access via user's browser)
 
    Node Port Image
+
    ![Node Port](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Node%20Port.png)
 
    Node Port service exposes the port as `portnumber/TCP` `3042/TCP`, we then make a request like `localhost:portnumber/resource` to access the post resource
@@ -79,8 +82,12 @@
 
 8. Ingress - A pod with a set of routing rules to distribute traffic to other services
    Image
-   
+
    ![Load balancer](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Load%20Balancer.png)
+
+   App Architecture
+
+   ![App Architecture](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/App%20arch%20design.png)
 
 # Kubernetes Command
 
