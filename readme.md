@@ -2,7 +2,11 @@
 
 - [Architecture](#architecture)
 - [Kubernetes Command](#kubectl-cmd)
+- [Questions](#questions)
 - [Flow of development](#flow-of-development)
+- [Learnings](#learnings)
+- [Edge Cases](#edge-cases)
+- [Todo](#todo)
 
 # Overview
 
@@ -85,6 +89,15 @@
 
    ![Load balancer](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Load%20Balancer.png)
 
+9. NATS Streaming server
+
+   node-nats-streaming - client to communicate with nats streaming server
+   A service emits an event, event reaches to NATS Streaming server, event is then emitted to the service which listen on that using channel or topic subscription
+
+   nats-streaming-server - exposes multiple port, 4222 in for client and 8222 is for information
+
+   ![NATS Architecture](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/NATS%20Architecture.png)
+
    App Architecture
 
    ![App Architecture](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/App%20arch%20design.png)
@@ -136,3 +149,42 @@
 :rocket: Add current user and signout login page in NextJS
 
 :rocket: Move Error handling logic to npm library (not doing right now)
+
+:rocket: Make yaml file for tickets, `tickets-depl.yaml`, `tickets-mongo-depl.yaml`
+
+:rocket: Make env (MONGO_URI) for tickets-mongo-srv and auth-mongo-srv
+
+:rocket: Make ticket folder and install all dependencies required
+
+:rocket: Write test for `/api/tickets` (CRUD) route (test first approach)
+
+:rocket: Make controller for `/api/tickets` (CRUD) route (test first approach)
+
+:rocket: Make tickets model and handle validations
+
+:rocket: Make `nats-depl.yaml` in infra/k8s and setup.
+
+:rocket: Create a `listener.ts` file in nats dir and make an `abstract class listner`.
+
+:rocket: Create a `publisher.ts` file in nats dir and make an `abstract class publisher`.
+
+:rocket: Move a all the base events into common `dir`.
+
+# Learning
+
+1. A middleware for authorized/protected routes checks whether the user has valid JWT Token. If not it should restrict access and send a valid error msg to error middleware. If token exist it should set some property on `req object` (`req.userToken or req.user`) and pass execution to next succedding middleware, so user should be able to acccess the route (ex: like `protect.ts` or `requireAuth`)
+
+2. In testing environment somehow `req.signedCookles.jwt` is undefined but `req.cookies.jwt` is valid token, when we set header as set('Cookie',cookie) (tickets service)
+
+3. kubectl port-forwarding - It helps to redirect the connection from local port to the port in the pod.
+
+4.
+
+# Edge Cases
+
+1. If a user sign in and closes tab, then he should not be asked to enter password again implement a `isLoggedIn controller`
+
+# Todo
+
+1. In the auth service, implement a isLoggedIn middleware. it should pass the control to next router.
+2. Refactor at the common utils func into a single module or lib. Do it at the end of course

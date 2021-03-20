@@ -1,11 +1,8 @@
 import express from 'express';
-
-import currentUserRouter from './routes/current-user';
-import signin from './routes/signin';
-import signup from './routes/signup';
-import signout from './routes/signout';
-import { errorHandler } from './utils/errorHandler';
 import cookieParser from 'cookie-parser';
+
+import ticketsRoutes from './routes/ticketsRoutes';
+import { errorHandler } from './utils/errorHandler';
 
 const app = express();
 
@@ -17,10 +14,7 @@ app.use(cookieParser('my-cookie-secret'));
 //   next();
 // });
 
-app.use(currentUserRouter);
-app.use(signin);
-app.use(signup);
-app.use(signout);
+app.use('/api/tickets', ticketsRoutes);
 
 app.use(errorHandler);
 

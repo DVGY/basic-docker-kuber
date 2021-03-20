@@ -5,7 +5,7 @@ if (!process.env.JWT_SECRET_KEY) {
   throw new Error('JWT SECRET KEY is not defined');
 }
 if (!process.env.MONGO_URI) {
-  throw new Error('MONGO URI is not defined');
+  throw new Error('Mongo URI is not defined');
 }
 
 mongoose
