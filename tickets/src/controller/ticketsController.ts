@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import { TicketCreatedPublisher } from '../events/publishers/ticket-created-event-publishers';
 import Tickets, { ITickets } from '../model/ticketsModel';
+import { natsWrapper } from '../NATSWrapper';
 import { AppError } from '../utils/appError';
 
 export const createTickets = async (
@@ -8,10 +10,19 @@ export const createTickets = async (
   next: NextFunction
 ) => {
   const { title, price } = req.body;
-  const { user } = req;
-  const userId = user!.id;
+
+  const userId = req.user!.id;
   try {
     const tickets: ITickets = await Tickets.create({ title, price, userId });
+
+    // Ticket is created now publish event about it
+    const publisher = await new TicketCreatedPublisher(natsWrapper.client);
+    publisher.publish({
+      id: tickets.id!,
+      titile: tickets.title,
+      price: tickets.price,
+      userId: tickets.userId,
+    });
 
     res.status(201).json({
       status: 'success',
@@ -61,8 +72,7 @@ export const updateTicket = async (
   next: NextFunction
 ) => {
   const { title, price } = req.body;
-  const { user } = req;
-  const userId = user!.id;
+  const userId = req.user!.id;
   try {
     // Check if user owns the ticket and then update ticket document
     const ticket: ITickets | null = await Tickets.findOneAndUpdate(

@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nats-depl
+  name: nats-streaming-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      apps: nats
+      app: nats-streaming
   template:
     metadata:
       labels:
-        apps: nats
+        app: nats-streaming
     spec:
       containers:
-        - name: nats
+        - name: nats-streaming
           image: nats-streaming:0.17.0
           args:
             [
@@ -22,6 +22,8 @@ spec:
               '-m',
               '8222',
               '-hbi',
+              '5s',
+              '-hbt',
               '5s',
               '-hbf',
               '2',
@@ -33,10 +35,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nats-srv
+  name: nats-streaming-srv
 spec:
   selector:
-    app: nats
+    app: nats-streaming
   ports:
     - name: client
       protocol: TCP

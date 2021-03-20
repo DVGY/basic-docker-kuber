@@ -23,7 +23,6 @@ export const protect = async (
   try {
     // 1. Check if the the jwt token exist in cookie
     // const token = req.cookies.jwt;
-
     const token = req.signedCookies.jwt || req.cookies.jwt;
     if (!token) {
       return next(new AppError('You are not authorised', 401));

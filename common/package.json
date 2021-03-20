@@ -1,10 +1,16 @@
 {
-  "name": "common",
-  "version": "1.0.0",
+  "name": "common-ticketing",
+  "version": "1.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build/**/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run clean && tsc",
+    "clean": "rd /s /q build .cache>nul 2>&1|echo.>nul",
+    "pub": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish "
   },
   "keywords": [],
   "author": "",
@@ -12,7 +18,10 @@
   "dependencies": {
     "@types/node": "^14.14.35",
     "node-nats-streaming": "^0.3.2",
-    "ts-node-dev": "^1.1.6",
+    "ts-node-dev": "^1.1.6"
+  },
+  "devDependencies": {
+    "del-cli": "^3.0.1",
     "typescript": "^4.2.3"
   }
 }

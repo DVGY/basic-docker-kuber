@@ -129,6 +129,7 @@
 :rocket: Use JWT and Cookie for auth
 
 :rocket: JWT Secret should be in kube env `kubectl create secret generic jwt-secret --from-literal=JWT_SECRET_KEY=asdf`. Make changes to `auth-depl.yaml`
+ex(`kubectl create secret generic jwt-secret-key --from-literal=JWT_SECRET_KEY=MY_ULTRA_STRONG_JWT_SECRET_KEY`)
 
 :rocket: Complete Signin, CurrentUser, SignOut and SignUp route
 
@@ -170,6 +171,13 @@
 
 :rocket: Move a all the base events into common `dir`.
 
+:rocket: As soon as a new ticket is created we need to emit an event `ticket:created` using event publisher class and send to listner(nats streaming listener).
+Create a new `TicketCreatedPublisher class` and use it to publish event.
+
+:rocket: Implement a singleton class for stan (NATS Client) and use it throught the service.
+
+:rocket: Move common dir to npm library.
+
 # Learning
 
 1. A middleware for authorized/protected routes checks whether the user has valid JWT Token. If not it should restrict access and send a valid error msg to error middleware. If token exist it should set some property on `req object` (`req.userToken or req.user`) and pass execution to next succedding middleware, so user should be able to acccess the route (ex: like `protect.ts` or `requireAuth`)
@@ -178,7 +186,7 @@
 
 3. kubectl port-forwarding - It helps to redirect the connection from local port to the port in the pod.
 
-4.
+4. Singleton Class: A class whose object is created once and shared across program (ex mongoose)
 
 # Edge Cases
 
