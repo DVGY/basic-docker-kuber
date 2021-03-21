@@ -178,6 +178,10 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 
 :rocket: Move common dir to npm library.
 
+:rocket: Update failing test suit bcz of publish base class. Make a mock func implementation
+
+:rocket: Add env variable for NATS. Update the `client-depl.yaml` file
+
 # Learning
 
 1. A middleware for authorized/protected routes checks whether the user has valid JWT Token. If not it should restrict access and send a valid error msg to error middleware. If token exist it should set some property on `req object` (`req.userToken or req.user`) and pass execution to next succedding middleware, so user should be able to acccess the route (ex: like `protect.ts` or `requireAuth`)
@@ -187,6 +191,8 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 3. kubectl port-forwarding - It helps to redirect the connection from local port to the port in the pod.
 
 4. Singleton Class: A class whose object is created once and shared across program (ex mongoose)
+
+5. It important to run `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml` in infra/k8s dir
 
 # Edge Cases
 

@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import Tickets from '../../model/ticketsModel';
+import { natsWrapper } from '../../NATSWrapper';
 
 it('has a route handler /api/tickets for post request', async () => {
   const response = await request(app).post('/api/tickets').send({});
@@ -72,4 +73,17 @@ it('creates a new record inside Mongo DB /api/tickets for post request', async (
   expect(tickets.length).toEqual(1);
   expect(tickets[0].title).toEqual('Thequick');
   expect(tickets[0].price).toEqual('20');
+});
+
+it('publishes an event', async () => {
+  const cookie = global.getCookieJWT();
+
+  const response = await request(app)
+    .post('/api/tickets')
+    .set('Cookie', cookie)
+    .send({ title: 'Thequick', price: '20' });
+
+  expect(response.status).toEqual(201);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

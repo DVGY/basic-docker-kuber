@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { TicketCreatedPublisher } from '../events/publishers/ticket-created-event-publishers';
+import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-event-publisher';
 import Tickets, { ITickets } from '../model/ticketsModel';
 import { natsWrapper } from '../NATSWrapper';
 import { AppError } from '../utils/appError';
@@ -13,20 +14,20 @@ export const createTickets = async (
 
   const userId = req.user!.id;
   try {
-    const tickets: ITickets = await Tickets.create({ title, price, userId });
+    const ticket: ITickets = await Tickets.create({ title, price, userId });
 
     // Ticket is created now publish event about it
     const publisher = await new TicketCreatedPublisher(natsWrapper.client);
     publisher.publish({
-      id: tickets.id!,
-      titile: tickets.title,
-      price: tickets.price,
-      userId: tickets.userId,
+      id: ticket.id!,
+      titile: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
     });
 
     res.status(201).json({
       status: 'success',
-      data: tickets,
+      data: ticket,
     });
   } catch (err) {
     next(err);
@@ -90,6 +91,15 @@ export const updateTicket = async (
     if (!ticket) {
       return next(new AppError('Unable to update ticket', 400));
     }
+
+    // Tciket is updated now publish the event
+    const publisher = await new TicketUpdatedPublisher(natsWrapper.client);
+    publisher.publish({
+      id: ticket.id!,
+      titile: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
 
     res.status(200).json({
       status: 'success',

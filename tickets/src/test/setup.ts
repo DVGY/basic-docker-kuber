@@ -12,6 +12,8 @@ declare global {
 
 let mongo: any;
 
+jest.mock('../NATSWrapper');
+
 beforeAll(async function () {
   jest.setTimeout(30000);
   process.env.JWT_SECRET_KEY = 'assss';
@@ -26,6 +28,7 @@ beforeAll(async function () {
 });
 
 beforeEach(async function () {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.collections;
   //   console.log(db);
   for (let collection in collections) {
