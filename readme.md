@@ -182,6 +182,10 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 
 :rocket: Add env variable for NATS. Update the `client-depl.yaml` file
 
+:rocket: Make boiler plate for order service as done in ticket service
+
+:rocket: Make controller for `/api/orders` (CRUD) route (test last approach)
+
 # Learning
 
 1. A middleware for authorized/protected routes checks whether the user has valid JWT Token. If not it should restrict access and send a valid error msg to error middleware. If token exist it should set some property on `req object` (`req.userToken or req.user`) and pass execution to next succedding middleware, so user should be able to acccess the route (ex: like `protect.ts` or `requireAuth`)
@@ -192,7 +196,13 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 
 4. Singleton Class: A class whose object is created once and shared across program (ex mongoose)
 
-5. It important to run `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml` in infra/k8s dir
+5. It important to run `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml` in infra/k8s dir.
+
+6. Versioning of record like `tickets`. I understood how versioning can be helpful and I was able to related this to sharepoint documents versions
+
+7. An order contains the ticket that is purchased. If a new order is created we need to make sure that ticket does not exist with in order. So we need to query each order and then find inside it ticket is reserved/purchased . So embedding a ticket inside a order does not make sense. We will create a reference to ticket inside of order.
+
+8. While creating order service boilerplate we wanted to test api/order (create order) service we wrote test. Postman will not work, at this time we did not have the NATS Event publishing for ticket created fully working. So If we create a ticket, it will just publish an event ticket created, we are not saving the ticket or getting the ticket data from published event at this point in time. So testing the service using jest and superman was necessary (no exchange of data through eventing service)
 
 # Edge Cases
 
