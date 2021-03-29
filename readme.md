@@ -106,7 +106,7 @@
 # Event Flow
 
 1. Services Event and NATS
-   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Services%20Event%20and%20NATS.png)
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Services%20Event%20%20and%20NATS.png)
 
 2. Ticket Created and NATS
    ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Ticket%20Created%20NATS.png)
