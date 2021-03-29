@@ -1,6 +1,7 @@
 # Table of contents
 
 - [Architecture](#architecture)
+- [Event Flow](#event-flow)
 - [Kubernetes Command](#kubectl-cmd)
 - [Questions](#questions)
 - [Flow of development](#flow-of-development)
@@ -101,6 +102,35 @@
    App Architecture
 
    ![App Architecture](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/App%20arch%20design.png)
+
+# Event Flow
+
+1. Services Event and NATS
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Services%Event%and%20NATS.png)
+
+2. Ticket Created and NATS
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Ticket%Created%NATS.png)
+
+3. Ticket Updated and NATS
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Ticket%Updated%NATS.png)
+
+4. Order Service and NATS
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Order%Service%NATS.png)
+
+5. Order Created and NATS
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Order%Created%NATS.png)
+
+6. Order Cancelled and NATS
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Order%Cancelled%NATS.png)
+
+7. Order Cancelled and NATS
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Order%Cancelled%NATS.png)
+
+8. Expiration Complete and NATS
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Expiration%Complete%NATS.png)
+
+9. Charge Created and NATS
+   ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Charge%Created%NATS.png)
 
 # Kubernetes Command
 

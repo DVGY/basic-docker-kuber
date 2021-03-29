@@ -3,10 +3,10 @@ import { OrderStatus } from 'common-ticketing';
 
 import Tickets from '../model/ticketsModel';
 import Orders from '../model/ordersModel';
-// import { OrderCreatedPublisher } from '../events/publishers/order-created-event-publishers';
-// import { OrderUpdatedPublisher } from '../events/publishers/order-updated-event-publisher';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
+import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
 // import Tickets, { ITickets } from '../model/ticketsModel';
-// import { natsWrapper } from '../NATSWrapper';
+import { natsWrapper } from '../NATSWrapper';
 import { AppError } from '../utils/appError';
 
 const EXPIRATION_TIME_SECONDS = 15 * 60;
@@ -49,6 +49,17 @@ export const createOrders = async (
     });
 
     // Publish an event that order is created
+
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id!,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id!,
+        price: ticket.price,
+      },
+    });
 
     res.status(201).json({
       status: 'success',
@@ -121,7 +132,7 @@ export const deleteOrder = async (
   const orderId = req.params.id;
   const userId = req.user!.id;
   try {
-    const order = await Orders.findById(orderId);
+    const order = await Orders.findById(orderId).populate('ticket');
 
     if (!order) {
       throw new AppError('Order Not Found', 404);
@@ -134,6 +145,13 @@ export const deleteOrder = async (
     order.status = OrderStatus.Cancelled;
 
     await order.save();
+
+    new OrderCancelledPublisher(natsWrapper.client).publish({
+      id: order.id!,
+      ticket: {
+        id: order.ticket.id!,
+      },
+    });
 
     res.status(204).json({
       status: 'success',
