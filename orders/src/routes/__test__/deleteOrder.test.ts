@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
 import Orders from '../../model/ordersModel';
@@ -7,8 +8,15 @@ import { natsWrapper } from '../../NATSWrapper';
 
 it('It should soft delete a order', async () => {
   // Create 2 tickets
-  const ticketOne = await Tickets.create({ title: 'MJ Concert', price: '20' });
+  const ticketOne = await Tickets.create({
+    _id: mongoose.Types.ObjectId().toHexString(),
+
+    title: 'MJ Concert',
+    price: '20',
+  });
   const ticketTwo = await Tickets.create({
+    _id: mongoose.Types.ObjectId().toHexString(),
+
     title: 'Sonu Nigam Concert',
     price: '200',
   });
@@ -42,8 +50,14 @@ it('It should soft delete a order', async () => {
 
 it('It should throw not authorized error if unauthorized user tries to acces the order', async () => {
   // Create 2 tickets
-  const ticketOne = await Tickets.create({ title: 'MJ Concert', price: '20' });
+  const ticketOne = await Tickets.create({
+    _id: mongoose.Types.ObjectId().toHexString(),
+    title: 'MJ Concert',
+    price: '20',
+  });
   const ticketTwo = await Tickets.create({
+    _id: mongoose.Types.ObjectId().toHexString(),
+
     title: 'Sonu Nigam Concert',
     price: '200',
   });
@@ -73,8 +87,14 @@ it('It should throw not authorized error if unauthorized user tries to acces the
 
 it('Publishes an order deleted event', async () => {
   // Create 2 tickets
-  const ticketOne = await Tickets.create({ title: 'MJ Concert', price: '20' });
+  const ticketOne = await Tickets.create({
+    _id: mongoose.Types.ObjectId().toHexString(),
+    title: 'MJ Concert',
+    price: '20',
+  });
   const ticketTwo = await Tickets.create({
+    _id: mongoose.Types.ObjectId().toHexString(),
+
     title: 'Sonu Nigam Concert',
     price: '200',
   });

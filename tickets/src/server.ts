@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
+import { OrderCreatedListner } from './events/listneres/order-created-listner';
 import { natsWrapper } from './NATSWrapper';
 
 const start = async () => {
@@ -21,6 +22,9 @@ const start = async () => {
   if (!process.env.NATS_CLUSTER_ID) {
     throw new Error('NATS CLUSTER ID is not defined');
   }
+
+  new OrderCreatedListner(natsWrapper.client).listen();
+  new OrderCreatedListner(natsWrapper.client).listen();
 
   await natsWrapper.connect(
     process.env.NATS_CLUSTER_ID,

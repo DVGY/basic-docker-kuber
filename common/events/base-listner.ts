@@ -7,7 +7,7 @@ interface Event {
 }
 
 export abstract class Listener<T extends Event> {
-  public client: Stan;
+  protected client: Stan;
   abstract queueGroupName: string; // queueGroupName is the queue group inside nats streaming server that we subscribe to (user-defined)
   abstract subject: T['subject']; // subject is the event we listen to (user-defined)
   abstract onMessage(data: T['data'], msg: Message): void; //(user-defined)

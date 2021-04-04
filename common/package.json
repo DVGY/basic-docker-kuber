@@ -1,7 +1,7 @@
 {
   "name": "common-ticketing",
-  "version": "1.0.6",
-  "description": "",
+  "version": "1.0.14",
+  "description": "utility functions for services",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [

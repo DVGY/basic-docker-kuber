@@ -59,6 +59,7 @@ export const createOrders = async (
         id: ticket.id!,
         price: ticket.price,
       },
+      __v: order.__v as number,
     });
 
     res.status(201).json({
@@ -151,6 +152,7 @@ export const deleteOrder = async (
       ticket: {
         id: order.ticket.id!,
       },
+      __v: order.__v as number,
     });
 
     res.status(204).json({

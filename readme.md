@@ -148,6 +148,8 @@
 1. How to access mongodb collection inside kubernetes cluster ?
    get the pod name, run this `kubectl exec --stdin --tty <mongodb-pod-name> -- sh`, use mongo related command
 
+   Ans : `kubectl exec -it tickets-mongo-depl-685f7f898-tp27w mongo mongodb://localhost:27017/tickets`
+
 # Flow Of development
 
 :rocket: Add mongoose and add `auth-mongo-depl.yaml` in infra dir.
@@ -216,6 +218,19 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 
 :rocket: Make controller for `/api/orders` (CRUD) route (test last approach)
 
+:rocket: Make listener class in orders service. One listner listens for ticket created event and one for ticket updated. Here we need to save the ticket information in the order service
+
+:rocket: Adjust the `_id` of `Tickets` model in orders service so that it matches up with the Tickets service
+
+:rocket: start listening for `ticket:created` and `ticket:updated` event on order service
+
+:rocket: Implement concurrency control for ticket updated using mongoose versioning by primary service (Tickets service) and tickets service inside orders
+
+:rocket: Implement concurrency control for Orders service
+
+:rocket: Implement `Listner` for `order:created` in tickets service. Lock the ticket and prevent from changing.
+:rocket: Implement `Listner` for `order:cancelled` in tickets service.
+
 # Learning
 
 1. A middleware for authorized/protected routes checks whether the user has valid JWT Token. If not it should restrict access and send a valid error msg to error middleware. If token exist it should set some property on `req object` (`req.userToken or req.user`) and pass execution to next succedding middleware, so user should be able to acccess the route (ex: like `protect.ts` or `requireAuth`)
@@ -233,6 +248,8 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 7. An order contains the ticket that is purchased. If a new order is created we need to make sure that ticket does not exist with in order. So we need to query each order and then find inside it ticket is reserved/purchased . So embedding a ticket inside a order does not make sense. We will create a reference to ticket inside of order.
 
 8. While creating order service boilerplate we wanted to test api/order (create order) service we wrote test. Postman will not work, at this time we did not have the NATS Event publishing for ticket created fully working. So If we create a ticket, it will just publish an event ticket created, we are not saving the ticket or getting the ticket data from published event at this point in time. So testing the service using jest and superman was necessary (no exchange of data through eventing service)
+
+9. I lack mongodb database modelling knowledege
 
 # Edge Cases
 

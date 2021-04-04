@@ -1,12 +1,20 @@
 import request from 'supertest';
-import { app } from '../../app';
+import mongoose from 'mongoose';
 
+import { app } from '../../app';
 import Tickets from '../../model/ticketsModel';
 
 it('It gives all the orders created by particular user', async () => {
   // Create 2 tickets
-  const ticketOne = await Tickets.create({ title: 'MJ Concert', price: '20' });
+  const ticketOne = await Tickets.create({
+    _id: mongoose.Types.ObjectId().toHexString(),
+
+    title: 'MJ Concert',
+    price: '20',
+  });
   const ticketTwo = await Tickets.create({
+    _id: mongoose.Types.ObjectId().toHexString(),
+
     title: 'Sonu Nigam Concert',
     price: '200',
   });

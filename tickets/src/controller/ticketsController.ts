@@ -20,9 +20,10 @@ export const createTickets = async (
     const publisher = await new TicketCreatedPublisher(natsWrapper.client);
     publisher.publish({
       id: ticket.id!,
-      titile: ticket.title,
+      title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
+      __v: ticket.__v as number,
     });
 
     res.status(201).json({
@@ -92,13 +93,18 @@ export const updateTicket = async (
       return next(new AppError('Unable to update ticket', 400));
     }
 
-    // Tciket is updated now publish the event
+    if (ticket.orderId) {
+      return next(new AppError('Unable to update reserved ticket', 400));
+    }
+
+    // Ticket is updated now publish the event
     const publisher = await new TicketUpdatedPublisher(natsWrapper.client);
     publisher.publish({
       id: ticket.id!,
-      titile: ticket.title,
+      title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
+      __v: ticket.__v as number,
     });
 
     res.status(200).json({

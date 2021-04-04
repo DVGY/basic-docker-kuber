@@ -1,12 +1,14 @@
 import mongoose, { Document, Mongoose, Schema } from 'mongoose';
 import { OrderStatus } from 'common-ticketing';
 import { ITickets } from './ticketsModel';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 export interface IOrders extends Document {
   ticket: ITickets;
   userId: string;
   status: OrderStatus;
   expiresAt: Date;
+  __v: number;
 }
 
 const ordersSchema: Schema = new mongoose.Schema(
@@ -42,7 +44,6 @@ const ordersSchema: Schema = new mongoose.Schema(
       transform: function (doc, ret) {
         ret.id = ret._id;
         delete ret._id;
-        delete ret.__v;
       },
     },
   }
@@ -51,6 +52,7 @@ const ordersSchema: Schema = new mongoose.Schema(
 //--------------------------------------------------//
 //             PRE MIDDLEWARE                       //
 //--------------------------------------------------//
+ordersSchema.plugin(updateIfCurrentPlugin);
 
 //---------------------------------------------------//
 //                 METHODS                           //

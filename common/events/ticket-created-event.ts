@@ -4,8 +4,9 @@ export interface TicketCreatedEvent {
   subject: Subjects.TicketCreated;
   data: {
     id: string;
-    titile: string;
+    title: string;
     price: string;
     userId: string;
+    __v: number;
   };
 }
