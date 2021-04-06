@@ -229,7 +229,12 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 :rocket: Implement concurrency control for Orders service
 
 :rocket: Implement `Listner` for `order:created` in tickets service. Lock the ticket and prevent from changing.
+
 :rocket: Implement `Listner` for `order:cancelled` in tickets service.
+
+:rocket: Setup boiler plate for Expiration service.
+
+:rocket: Setup boiler plate for Expiration service.
 
 # Learning
 

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { app } from './app';
 import { OrderCreatedListner } from './events/listneres/order-created-listner';
+import { OrderCancelledListner } from './events/listneres/order-cancelled-listner';
 import { natsWrapper } from './NATSWrapper';
 
 const start = async () => {
@@ -23,9 +24,6 @@ const start = async () => {
     throw new Error('NATS CLUSTER ID is not defined');
   }
 
-  new OrderCreatedListner(natsWrapper.client).listen();
-  new OrderCreatedListner(natsWrapper.client).listen();
-
   await natsWrapper.connect(
     process.env.NATS_CLUSTER_ID,
     process.env.NATS_CLIENT_ID,
@@ -36,6 +34,9 @@ const start = async () => {
     console.log('NATS Connection Closed');
     process.exit();
   });
+
+  new OrderCreatedListner(natsWrapper.client).listen();
+  new OrderCancelledListner(natsWrapper.client).listen();
 
   await mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -48,6 +49,3 @@ const start = async () => {
   app.listen(3000, () => console.log('Listeninig on port 3000!!'));
 };
 start();
-
-process.on('SIGINT', () => natsWrapper.client.close());
-process.on('SIGTERM', () => natsWrapper.client.close());
