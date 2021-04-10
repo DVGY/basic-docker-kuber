@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
+import { ExpirationCompleteListner } from './events/listeners/expiration-complete-listner';
 import { TicketCreatedListner } from './events/listeners/ticket-created-listner';
 import { TicketUpdatedListner } from './events/listeners/ticket-updated-listner';
 import { natsWrapper } from './NATSWrapper';
@@ -40,6 +41,7 @@ const start = async () => {
 
   new TicketCreatedListner(natsWrapper.client).listen();
   new TicketUpdatedListner(natsWrapper.client).listen();
+  new ExpirationCompleteListner(natsWrapper.client).listen();
 
   await mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,

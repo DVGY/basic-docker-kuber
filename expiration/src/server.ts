@@ -1,5 +1,5 @@
 import { natsWrapper } from './NATSWrapper';
-
+import { OrderCreatedListner } from './events/listeners/order-created-listeners';
 const start = async () => {
   if (!process.env.NATS_URL) {
     throw new Error('NATS URI is not defined');
@@ -23,8 +23,10 @@ const start = async () => {
     console.log('NATS Connection Closed');
     process.exit();
   });
+
+  process.on('SIGINT', () => natsWrapper.client.close());
+  process.on('SIGTERM', () => natsWrapper.client.close());
+
+  new OrderCreatedListner(natsWrapper.client).listen();
 };
 start();
-
-process.on('SIGINT', () => natsWrapper.client.close());
-process.on('SIGTERM', () => natsWrapper.client.close());
