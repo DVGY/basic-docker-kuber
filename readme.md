@@ -24,7 +24,7 @@
 1. User
 2. Order
 3. Ticket
-4. Charge
+4. Payments
 
 #### Services
 
@@ -43,7 +43,7 @@
 5. OrderExpired
 6. TicketCreated
 7. TicketUpdated
-8. ChargeCreated
+8. PaymentCreated
 
 # Architecture
 
@@ -129,7 +129,7 @@
 8. Expiration Complete and NATS
    ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Expiration%20Complete%20NATS.png)
 
-9. Charge Created and NATS
+9. Charge/Payment Created and NATS
    ![Services Event and NATS](https://github.com/DVGY/basic-docker-kuber/blob/master/readme%20images/Charge%20Created%20NATS.png)
 
 # Kubernetes Command
@@ -234,7 +234,19 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 
 :rocket: Setup boiler plate for Expiration service.
 
-:rocket: Setup boiler plate for Expiration service.
+:rocket: Setup boiler plate for Payment service.
+
+:rocket: Create Orders model in Payment service.
+
+:rocket: Make `OrderCreatedListner` and `OrderCancelledListner` for payment service.
+
+:rocket: Write test for `OrderCreatedListner` and `OrderCancelledListner` and test with postman too.
+
+:rocket: Setup stripe and `createPayments` route and set up stripe secret key `kubectl create secret generic stripe-secret-key --from-literal=STRIPE_SECRET_KEY=<MY STRIPE SECRET FROM STRIPE DASHBOARD>`.
+
+:rocket: Process the payment before it expires and publish an event about successfull payment creation.
+
+:rocket: Order Service Listens for payment created event and set the status of the order to complete.
 
 # Learning
 

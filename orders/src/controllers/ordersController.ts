@@ -55,11 +55,12 @@ export const createOrders = async (
       status: order.status,
       userId: order.userId,
       expiresAt: order.expiresAt.toISOString(),
+      __v: order.__v as number,
+
       ticket: {
         id: ticket.id!,
         price: ticket.price,
       },
-      __v: order.__v as number,
     });
 
     res.status(201).json({
