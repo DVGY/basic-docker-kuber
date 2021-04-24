@@ -77,7 +77,7 @@ ticketsSchema.methods.isTicketReserved = async function (): Promise<boolean> {
       ],
     },
   });
-
+  console.log(existingOrder);
   return !!existingOrder;
 };
 // Check if the password matches entered password in db

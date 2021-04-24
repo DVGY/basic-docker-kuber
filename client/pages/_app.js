@@ -1,27 +1,30 @@
-import "tailwindcss/tailwind.css";
-import axios from "axios";
-import Header from "../components/header";
+import 'tailwindcss/tailwind.css';
+import Axios from 'axios';
+import Header from '../components/header';
 
 function AppComponent({ Component, pageProps, data }) {
-  console.log({ data });
+  const { currentUser } = data;
   return (
     <div>
-      <Header currentUserCtx={data} />
-      <Component {...pageProps} />
+      <Header currentUser={currentUser} />
+      <Component currentUser={currentUser} {...pageProps} />
     </div>
   );
 }
 
 AppComponent.getInitialProps = async (appContext) => {
-  // console.log("App Component");
   try {
-    if (typeof window === "undefined") {
+    // If the request is from server side
+    if (typeof window === 'undefined') {
       // 1. Make request to Ingress-srv http://ingress-nginx.ingress-nginx-controller/api/users/currentuser
 
+      // cross namespace communication
+      // namespace : ingress-ngnix
+      // service: ingress-ngnix
       const {
         data,
-      } = await axios.get(
-        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser",
+      } = await Axios.get(
+        'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
         { headers: appContext.ctx.req.headers }
       );
 
@@ -36,7 +39,8 @@ AppComponent.getInitialProps = async (appContext) => {
         ...data,
       };
     } else {
-      const { data } = await axios.get("/api/users/currentuser");
+      // If the request is from browser
+      const { data } = await Axios.get('/api/users/currentuser');
       let pageProps = {};
 
       if (appContext.Component.getInitialProps) {
@@ -54,7 +58,8 @@ AppComponent.getInitialProps = async (appContext) => {
     // console.log({ pageProps });
     // 2. Send all the headers,cookie or req object as while other wise recive 404 err
   } catch (error) {
-    console.log("Ohh AppComponent err");
+    console.log('Ohh AppComponent err');
+    console.log(error);
     console.log(error.response.data);
     let pageProps = {};
 

@@ -111,7 +111,6 @@ export const currentUser = async (
     if (!token) {
       return next(new AppError('You are not authorised', 401));
     }
-    console.log(token);
 
     // 2. Verify if the token is correct
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY!);

@@ -248,6 +248,16 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 
 :rocket: Order Service Listens for payment created event and set the status of the order to complete.
 
+:rocket: Route to handle ticket creation.
+
+:rocket: Home Page should show all the tickets.
+
+:rocket: On Click on purchase ticket it should route to Show Order (Detail about purchaing specific ticket).
+
+:rocket: Create payment using stripe checkout.
+
+:rocket: Render Order list.
+
 # Learning
 
 1. A middleware for authorized/protected routes checks whether the user has valid JWT Token. If not it should restrict access and send a valid error msg to error middleware. If token exist it should set some property on `req object` (`req.userToken or req.user`) and pass execution to next succedding middleware, so user should be able to acccess the route (ex: like `protect.ts` or `requireAuth`)
