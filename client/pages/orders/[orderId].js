@@ -26,7 +26,6 @@ const OrderShow = ({ order }) => {
   }, []);
 
   const handlePayment = async (token) => {
-    console.log(token);
     try {
       const response = await Axios.post('/api/payments', {
         orderId: id,

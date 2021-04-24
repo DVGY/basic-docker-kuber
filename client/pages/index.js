@@ -62,7 +62,6 @@ HomePage.getInitialProps = async ({ req }) => {
         'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/tickets',
         { headers: req.headers }
       );
-      console.log({ data });
       // const found = isCyclic(resp);
       // 2. Send all the headers,cookie or req object as while other wise recive 404 err
       // console.log(found);

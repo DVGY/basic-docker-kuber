@@ -59,7 +59,6 @@ TicketShow.getInitialProps = async ({ query, req }) => {
         `http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/tickets/${ticketId}`,
         { headers: req.headers }
       );
-      console.log({ data });
       // const found = isCyclic(resp);
       // 2. Send all the headers,cookie or req object as while other wise recive 404 err
       // console.log(found);
@@ -70,16 +69,10 @@ TicketShow.getInitialProps = async ({ query, req }) => {
       // Make request normally like in client /api/users/currentuser
       return { ticket: data };
     }
-    // console.log(resp);
   } catch (error) {
     console.log('Ohh Homepage err');
     console.log(error);
     console.log(error.response.data);
-    // let pageProps = {};
-
-    // if (appContext.Component.getInitialProps) {
-    //   pageProps = await appContext.Component.getInitialProps(appContext.ctx);
-    // }
 
     return { data: error.response.data || {} };
   }

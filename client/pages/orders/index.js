@@ -2,7 +2,6 @@ import React from 'react';
 import Axios from 'axios';
 
 const OrderIndex = ({ orders }) => {
-  console.log(orders);
   const orderList = orders.data.map((order) => {
     const { price, title } = order.ticket;
     return (
@@ -63,9 +62,8 @@ OrderIndex.getInitialProps = async ({ req }) => {
         `http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/orders`,
         { headers: req.headers }
       );
-      // const found = isCyclic(resp);
       // 2. Send all the headers,cookie or req object as while other wise recive 404 err
-      // console.log(found);
+
       return { orders: data };
     } else {
       const { data } = await Axios.get(`/api/orders`);
@@ -73,16 +71,10 @@ OrderIndex.getInitialProps = async ({ req }) => {
       // Make request normally like in client /api/users/currentuser
       return { orders: data };
     }
-    // console.log(resp);
   } catch (error) {
     console.log('Ohh Homepage err');
     console.log(error);
     console.log(error.response.data);
-    // let pageProps = {};
-
-    // if (appContext.Component.getInitialProps) {
-    //   pageProps = await appContext.Component.getInitialProps(appContext.ctx);
-    // }
 
     return { data: error.response.data || {} };
   }
