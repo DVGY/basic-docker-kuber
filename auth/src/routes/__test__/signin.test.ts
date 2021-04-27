@@ -21,7 +21,7 @@ it('should send 201 for successfull signin and set-cookie in headers, route /api
   expect(response.get('Set-Cookie')).toBeDefined();
 });
 
-it('should send 400 for invalid signin credentials, route /api/users/signin', async function () {
+it('should send 401 for invalid signin credentials, route /api/users/signin', async function () {
   await request(app)
     .post('/api/users/signup')
     .send({
@@ -44,7 +44,7 @@ it('should send 400 for invalid signin credentials, route /api/users/signin', as
       email: 'test@test2.com',
       password: 'password',
     })
-    .expect(400);
+    .expect(401);
 
   return request(app).post('/api/users/signin').send({}).expect(400);
 });
