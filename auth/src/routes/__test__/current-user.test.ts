@@ -14,5 +14,5 @@ it('should send 200 and currentUser property should have valid values, route /ap
 });
 
 it('should send 400 when accessed without cookie, route /api/users/signin', async function () {
-  return request(app).get('/api/users/currentuser').expect(400);
+  return request(app).get('/api/users/currentuser').expect(401);
 });
