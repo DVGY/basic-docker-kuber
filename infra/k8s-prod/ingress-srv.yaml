@@ -9,6 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
+    # change this when you buy a domain name
     - host: ticketing.dev
       http:
         paths:
