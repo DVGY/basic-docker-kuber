@@ -285,4 +285,7 @@ Create a new `TicketCreatedPublisher class` and use it to publish event.
 # Todo
 
 1. In the auth service, implement a isLoggedIn middleware. it should pass the control to next router.
-2. Refactor at the common utils func into a single module or lib. Do it at the end of course
+2. Refactor at the common utils func into a single module or lib. Do it at the end of course.
+3. Buy a domain name and put it inside digital ocean and change load balancer srv ( no time )
+4. Add in HTTPS cert.manager.io (no time)
+5. Send email when user purchase a ticket successfully (no time)
