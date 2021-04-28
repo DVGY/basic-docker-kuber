@@ -109,7 +109,7 @@ OrderShow.getInitialProps = async ({ query, req }) => {
     }
     // console.log(resp);
   } catch (error) {
-    console.log('Ohh Homepage err');
+    console.log('Show Order Error');
     console.log(error);
     console.log(error.response.data);
     // let pageProps = {};

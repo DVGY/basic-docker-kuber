@@ -24,6 +24,8 @@ const start = async () => {
     throw new Error('NATS CLUSTER ID is not defined');
   }
 
+  console.log('Starting payments srv...');
+
   await natsWrapper.connect(
     process.env.NATS_CLUSTER_ID,
     process.env.NATS_CLIENT_ID,
